@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Couchbase, Inc.
+ * Copyright 2017-2018 Couchbase, Inc.
  */
 package com.couchbase.analytics.maven.docker;
 

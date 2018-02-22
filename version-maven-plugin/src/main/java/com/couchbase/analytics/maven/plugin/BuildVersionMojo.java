@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2017 Couchbase, Inc.
+ * Copyright 2016-2018 Couchbase, Inc.
  */
 package com.couchbase.analytics.maven.plugin;
 
