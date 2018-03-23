@@ -103,7 +103,7 @@ public class BuildVersionMojo extends AbstractMojo {
                 outWriter.write(JSONUtil.convertNode(jsonObject));
             }
         } catch (Exception e) {
-            throw new MojoFailureException("error", e);
+            getLog().info("Ignoring unexpected exception: " + e, e);
         }
     }
 
