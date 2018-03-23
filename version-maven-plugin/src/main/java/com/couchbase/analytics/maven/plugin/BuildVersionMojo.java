@@ -91,7 +91,7 @@ public class BuildVersionMojo extends AbstractMojo {
                 ArrayNode projects = jsonObject.putArray("projects");
                 if (!SystemUtils.IS_OS_WINDOWS) {
                     Process process = new ProcessBuilder("repo", "forall", "-r", ".*", "-c",
-                            "echo $REPO_PROJECT:$REPO_LREV:$REPO_RREV").redirectErrorStream(true).start();
+                            "echo $REPO_PROJECT:$REPO_LREV:$REPO_RREV").start();
                     process.waitFor();
                     IOUtils.readLines(process.getInputStream(), StandardCharsets.UTF_8).stream()
                             .map(line -> StringUtils.split(line, ":"))
@@ -103,7 +103,7 @@ public class BuildVersionMojo extends AbstractMojo {
                 outWriter.write(JSONUtil.convertNode(jsonObject));
             }
         } catch (Exception e) {
-            getLog().info("Ignoring unexpected exception: " + e, e);
+            getLog().warn("Ignoring unexpected exception: " + e, e);
         }
     }
 
