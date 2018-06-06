@@ -10,8 +10,6 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
@@ -30,9 +28,10 @@ public class GenerateBuildVersionPropertiesMojo extends BuildVersionMojo {
     File outputFile;
 
     @Override
-    public void execute() throws MojoExecutionException, MojoFailureException {
+    public void execute() {
         try {
-            ObjectNode jsonObject = getBuildVersionJson();
+            File manifestFile = ensureManifestFile();
+            ObjectNode jsonObject = getBuildVersionJson(manifestFile, inputFile == null);
             jsonObject.putPOJO("build.date", String.valueOf(new Date())).put("build.version", productVersion);
             outputFile.getParentFile().mkdirs();
             try (Writer outWriter = new OutputStreamWriter(new FileOutputStream(outputFile), StandardCharsets.UTF_8)) {

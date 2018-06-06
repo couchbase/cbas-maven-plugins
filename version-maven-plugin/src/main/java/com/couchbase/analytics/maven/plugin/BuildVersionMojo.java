@@ -41,26 +41,18 @@ public abstract class BuildVersionMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project.build.directory}")
     private File projectBuildDir;
 
-    protected ObjectNode getBuildVersionJson() throws InterruptedException, IOException, JAXBException {
+    protected ObjectNode getBuildVersionJson(File manifestFile, final boolean includeProjects)
+            throws IOException, JAXBException {
+        Manifest manifest =
+                (Manifest) JAXBContext.newInstance(Manifest.class).createUnmarshaller().unmarshal(manifestFile);
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode jsonObject = objectMapper.createObjectNode();
-        if (inputFile == null) {
-            inputFile = getManifestFile();
-        }
-        if (inputFile != null) {
-            getLog().info("Populating build info from manifest at: " + inputFile.getAbsolutePath());
-        } else {
-            getLog().info("Populating build info from repo manifest -r output");
-            inputFile = File.createTempFile("manifest", ".xml", projectBuildDir);
-            Process process = new ProcessBuilder("repo", "manifest", "-r")
-                    .redirectError(ProcessBuilder.Redirect.INHERIT).redirectOutput(inputFile).start();
-            process.waitFor();
-        }
-        Manifest manifest =
-                (Manifest) JAXBContext.newInstance(Manifest.class).createUnmarshaller().unmarshal(inputFile);
-        ArrayNode projectJSONs = jsonObject.putArray("projects");
+        ArrayNode projectJSONs = includeProjects ? jsonObject.putArray("projects") : null;
         for (Project project : manifest.getProject()) {
-            projectJSONs.addPOJO(new ProjectRevision(project.getName(), project.getRevision(), project.getUpstream()));
+            if (includeProjects) {
+                projectJSONs
+                        .addPOJO(new ProjectRevision(project.getName(), project.getRevision(), project.getUpstream()));
+            }
             if ("build".equals(project.getName())) {
                 final Optional<Annotation> buildNumAnno = project.getAnnotation().stream()
                         .filter(annotation -> "BLD_NUM".equals(annotation.getName())).findFirst();
@@ -73,6 +65,20 @@ public abstract class BuildVersionMojo extends AbstractMojo {
             }
         }
         return jsonObject;
+    }
+
+    protected File ensureManifestFile() throws IOException, InterruptedException {
+        File manifestFile = findManifestFile();
+        if (manifestFile != null) {
+            getLog().info("Populating build info from manifest at: " + manifestFile.getAbsolutePath());
+        } else {
+            getLog().info("Populating build info from repo manifest -r output");
+            manifestFile = File.createTempFile("manifest", ".xml", projectBuildDir);
+            Process process = new ProcessBuilder("repo", "manifest", "-r")
+                    .redirectError(ProcessBuilder.Redirect.INHERIT).redirectOutput(manifestFile).start();
+            process.waitFor();
+        }
+        return manifestFile;
     }
 
     @JsonInclude(Include.NON_NULL)
@@ -105,27 +111,20 @@ public abstract class BuildVersionMojo extends AbstractMojo {
         }
     }
 
-    protected File getManifestFile() {
-        Path currentPath = baseDir != null ? baseDir.toPath() : Paths.get(".").toAbsolutePath();
-        getLog().info("Looking for manifest file starting here: " + currentPath);
-        File manifestFile = null;
-        while (manifestFile == null) {
-            manifestFile = findManifestFile(currentPath);
-            currentPath = currentPath.getParent();
-            if (currentPath == null) {
-                break;
+    protected File findManifestFile() {
+        if (inputFile == null) {
+            Path currentPath = baseDir != null ? baseDir.toPath() : Paths.get(".").toAbsolutePath();
+            getLog().info("Looking for manifest file starting here: " + currentPath);
+            while (inputFile == null) {
+                File candidate = new File(currentPath.toFile(), MANIFEST_FILE_NAME);
+                inputFile = candidate.exists() ? candidate : null;
+                currentPath = currentPath.getParent();
+                if (currentPath == null) {
+                    break;
+                }
             }
         }
-        if (manifestFile != null) {
-            getLog().info("Determined manifest file to be: " + manifestFile);
-        } else {
-            getLog().info("Unable to find manifest file; falling back to repo state");
-        }
-        return manifestFile;
+        return inputFile;
     }
 
-    protected static File findManifestFile(Path dir) {
-        File candidate = new File(dir.toFile(), MANIFEST_FILE_NAME);
-        return candidate.exists() ? candidate : null;
-    }
 }

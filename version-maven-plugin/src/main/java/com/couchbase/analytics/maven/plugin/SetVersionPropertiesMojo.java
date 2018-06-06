@@ -27,7 +27,7 @@ public class SetVersionPropertiesMojo extends BuildVersionMojo {
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         try {
-            ObjectNode node = getBuildVersionJson();
+            ObjectNode node = getBuildVersionJson(ensureManifestFile(), true);
             ArrayNode projects = (ArrayNode) node.get("projects");
             for (Iterator<JsonNode> iter = projects.elements(); iter.hasNext();) {
                 ProjectRevision repoProject = (ProjectRevision) ((POJONode) iter.next()).getPojo();
