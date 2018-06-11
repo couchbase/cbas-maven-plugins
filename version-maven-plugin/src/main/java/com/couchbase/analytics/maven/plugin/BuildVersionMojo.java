@@ -51,6 +51,7 @@ public abstract class BuildVersionMojo extends AbstractMojo {
             getLog().info("Populating build info from manifest at: " + inputFile.getAbsolutePath());
         } else {
             getLog().info("Populating build info from repo manifest -r output");
+            projectBuildDir.mkdirs();
             inputFile = File.createTempFile("manifest", ".xml", projectBuildDir);
             Process process = new ProcessBuilder("repo", "manifest", "-r")
                     .redirectError(ProcessBuilder.Redirect.INHERIT).redirectOutput(inputFile).start();
