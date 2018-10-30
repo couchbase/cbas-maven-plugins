@@ -4,6 +4,7 @@
 package com.couchbase.analytics.maven.docker;
 
 import java.time.chrono.ChronoZonedDateTime;
+import java.util.Collections;
 import java.util.Map;
 
 import org.apache.maven.plugin.logging.Log;
@@ -23,7 +24,7 @@ class DockerContainerAccessor extends DockerObjectAccessor<Container, InspectCon
 
     @Override
     ListContainersCmd createListObjectsCmd(String labelFilter) {
-        return dockerClient.listContainersCmd().withLabelFilter(labelFilter);
+        return dockerClient.listContainersCmd().withLabelFilter(Collections.singletonList(labelFilter));
     }
 
     @Override
