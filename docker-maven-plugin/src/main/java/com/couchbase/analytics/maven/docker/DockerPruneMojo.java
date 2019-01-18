@@ -16,8 +16,6 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import com.github.dockerjava.api.DockerClient;
-import com.github.dockerjava.api.exception.DockerClientException;
-import com.github.dockerjava.api.exception.DockerException;
 import com.github.dockerjava.core.DockerClientBuilder;
 
 @Mojo(name = "docker-prune")
@@ -60,8 +58,8 @@ public class DockerPruneMojo extends AbstractMojo {
             for (DockerObjectAccessor<?, ?> accessor : accessorList) {
                 accessor.prune(pruneBefore, DockerObjectAccessor.CBAS_DOCKER_LABEL_NAME);
             }
-        } catch (DockerException | DockerClientException e) {
-            getLog().warn("Docker error: " + e, e);
+        } catch (Exception e) {
+            getLog().warn("Ignoring docker error: " + e, e);
         }
     }
 }
