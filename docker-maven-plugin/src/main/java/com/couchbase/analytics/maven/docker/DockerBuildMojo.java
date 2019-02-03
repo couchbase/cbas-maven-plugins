@@ -10,8 +10,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.maven.plugin.AbstractMojo;
@@ -111,13 +114,26 @@ public class DockerBuildMojo extends AbstractMojo {
 
         String imageId;
 
+        Set<Long> visited = new HashSet<>();
+
         @Override
         public void onNext(BuildResponseItem item) {
             String status = coalesce(item.getStatus(), "");
             String stream = coalesce(item.getStream(), "");
             String progress = coalesce(item.getProgress(), "");
+            ResponseItem.ProgressDetail progressDetail = item.getProgressDetail();
             if (!status.isEmpty() || !stream.isEmpty() || !progress.isEmpty()) {
-                getLog().info(String.format("%s %s %s", status, stream, progress));
+                if (progressDetail != null && progressDetail.getTotal() != null) {
+                    if (!visited.contains(progressDetail.getTotal())
+                            || (Objects.equals(progressDetail.getCurrent(), progressDetail.getTotal()))) {
+                        getLog().info(String.format("%s %s %s", status, stream, progress));
+                        if (!visited.remove(progressDetail.getTotal())) {
+                            visited.add(progressDetail.getTotal());
+                        }
+                    }
+                } else {
+                    getLog().info(String.format("%s %s %s", status, stream, progress));
+                }
             }
 
             if (item.isErrorIndicated()) {
