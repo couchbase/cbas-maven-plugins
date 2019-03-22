@@ -3,16 +3,17 @@
  */
 package com.couchbase.analytics.maven.docker;
 
+import java.time.chrono.ChronoZonedDateTime;
+import java.util.Map;
+
+import org.apache.maven.plugin.logging.Log;
+
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.InspectImageCmd;
 import com.github.dockerjava.api.command.InspectImageResponse;
 import com.github.dockerjava.api.command.ListImagesCmd;
 import com.github.dockerjava.api.command.RemoveImageCmd;
 import com.github.dockerjava.api.model.Image;
-import org.apache.maven.plugin.logging.Log;
-
-import java.time.chrono.ChronoZonedDateTime;
-import java.util.Map;
 
 class DockerImageAccessor extends DockerObjectAccessor<Image, InspectImageResponse> {
 

@@ -3,15 +3,16 @@
  */
 package com.couchbase.analytics.maven.docker;
 
+import java.time.chrono.ChronoZonedDateTime;
+import java.util.Map;
+
+import org.apache.maven.plugin.logging.Log;
+
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.InspectNetworkCmd;
 import com.github.dockerjava.api.command.ListNetworksCmd;
 import com.github.dockerjava.api.command.RemoveNetworkCmd;
 import com.github.dockerjava.api.model.Network;
-import org.apache.maven.plugin.logging.Log;
-
-import java.time.chrono.ChronoZonedDateTime;
-import java.util.Map;
 
 class DockerNetworkAccessor extends DockerObjectAccessor<Network, Network> {
 
