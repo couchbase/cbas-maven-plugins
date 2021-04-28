@@ -24,8 +24,8 @@
             <usedDependency>com.sun.activation:javax.activation</usedDependency>
             <usedDependency>com.sun.xml.bind:jaxb-core</usedDependency>
             <usedDependency>com.sun.xml.bind:jaxb-impl</usedDependency>
-            <usedDependency>javax.ws.rs:javax.ws.rs-api</usedDependency>
             <usedDependency>javax.xml.bind:jaxb-api</usedDependency>
+            <usedDependency>jakarta.ws.rs:jakarta.ws.rs-api</usedDependency>
           </usedDependencies>
         </configuration>
       </plugin>
@@ -35,6 +35,18 @@
     <dependency>
       <groupId>com.github.docker-java</groupId>
       <artifactId>docker-java</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.github.docker-java</groupId>
+      <artifactId>docker-java-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.github.docker-java</groupId>
+      <artifactId>docker-java-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.ws.rs</groupId>
+      <artifactId>jakarta.ws.rs-api</artifactId>
     </dependency>
     <dependency>
       <groupId>com.sun.activation</groupId>
@@ -51,10 +63,6 @@
     <dependency>
       <groupId>javax.xml.bind</groupId>
       <artifactId>jaxb-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>javax.ws.rs</groupId>
-      <artifactId>javax.ws.rs-api</artifactId>
     </dependency>
   </dependencies>
 </project>
