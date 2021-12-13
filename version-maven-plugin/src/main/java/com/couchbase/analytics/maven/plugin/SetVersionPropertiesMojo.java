@@ -1,9 +1,10 @@
 /*
- * Copyright 2016-2018 Couchbase, Inc.
+ * Copyright 2016-2021 Couchbase, Inc.
  */
 package com.couchbase.analytics.maven.plugin;
 
 import java.util.Iterator;
+import java.util.Properties;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -29,11 +30,14 @@ public class SetVersionPropertiesMojo extends BuildVersionMojo {
         try {
             ObjectNode node = getBuildVersionJson(ensureManifestFile(), true);
             ArrayNode projects = (ArrayNode) node.get("projects");
+            Properties properties = project.getProperties();
             for (Iterator<JsonNode> iter = projects.elements(); iter.hasNext();) {
                 ProjectRevision repoProject = (ProjectRevision) ((POJONode) iter.next()).getPojo();
-                project.getProperties().setProperty("repo.revision." + repoProject.getName(),
-                        repoProject.getRevision());
+                properties.setProperty("repo.revision." + repoProject.getName(), repoProject.getRevision());
             }
+            properties.put(buildNumberField, node.get(buildNumberField).asText());
+            properties.put(productVersionOnlyField, node.get(productVersionOnlyField).asText());
+            properties.put(productVersionField, node.get(productVersionField).asText());
         } catch (Exception e) {
             getLog().warn("Ignoring unexpected exception: " + e, e);
         }
