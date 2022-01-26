@@ -33,5 +33,6 @@
   <modules>
     <module>version-maven-plugin</module>
     <module>docker-maven-plugin</module>
+    <module>bom-helper-maven-plugin</module>
   </modules>
 </project>
