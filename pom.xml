@@ -10,7 +10,7 @@
   <parent>
     <artifactId>analytics-cbas</artifactId>
     <groupId>com.couchbase.analytics</groupId>
-    <version>7.0.2-SNAPSHOT</version>
+    <version>7.0.4-SNAPSHOT</version>
   </parent>
   <properties>
     <root.dir>${basedir}/../..</root.dir>
@@ -31,5 +31,6 @@
   <modules>
     <module>version-maven-plugin</module>
     <module>docker-maven-plugin</module>
+    <module>bom-helper-maven-plugin</module>
   </modules>
 </project>
