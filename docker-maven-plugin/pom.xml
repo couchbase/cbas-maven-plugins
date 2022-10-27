@@ -9,7 +9,7 @@
   <parent>
     <artifactId>cbas-maven-plugins</artifactId>
     <groupId>com.couchbase.analytics</groupId>
-    <version>7.0.4-SNAPSHOT</version>
+    <version>7.0.5-SNAPSHOT</version>
   </parent>
   <properties>
     <root.dir>${basedir}/../../..</root.dir>
