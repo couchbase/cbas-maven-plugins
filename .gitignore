@@ -1,0 +1,28 @@
+*~
+target
+.DS_Store
+git.properties
+.metadata
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+*.settings/
+*.loadpath
+*.recommenders
+.m2repo/
+
+# Eclipse Core
+*.project
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# JDT-specific (Eclipse Java Development Tools)
+*.classpath
+
+# IntelliJ IDEA
+*.iml
+*.idea
+
