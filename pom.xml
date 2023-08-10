@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ ! Copyright 2016-2018 Couchbase, Inc.
+ !-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.couchbase.analytics</groupId>
+  <artifactId>cbas-maven-plugins</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <parent>
+    <groupId>org.apache.asterix</groupId>
+    <artifactId>apache-asterixdb</artifactId>
+    <version>0.9.9-SNAPSHOT</version>
+    <relativePath>../../asterixdb/asterixdb/pom.xml</relativePath>
+  </parent>
+  <properties>
+    <root.dir>${basedir}/../..</root.dir>
+    <asterixdb.dir>${root.dir}/asterixdb</asterixdb.dir>
+    <source-format.skip>false</source-format.skip>
+  </properties>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.rat</groupId>
+        <artifactId>apache-rat-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>default</id>
+            <inherited>false</inherited>
+            <configuration>
+              <addDefaultLicenseMatchers>false</addDefaultLicenseMatchers>
+              <excludeSubProjects>false</excludeSubProjects>
+              <licenses>
+                <license implementation="org.apache.rat.analysis.license.SimplePatternBasedLicense">
+                  <licenseFamilyCategory>CB</licenseFamilyCategory>
+                  <licenseFamilyName>Couchbase</licenseFamilyName>
+                  <patterns>
+                    <pattern>Copyright 2018 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2019 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2020 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2021 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2022 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2023 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2016-2018 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2017-2018 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2016-2019 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2017-2019 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2018-2019 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2016-2020 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2017-2020 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2018-2020 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2019-2020 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2016-2021 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2017-2021 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2018-2021 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2019-2021 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2020-2021 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2016-2022 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2017-2022 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2018-2022 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2019-2022 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2020-2022 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2021-2022 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2016-2023 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2017-2023 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2018-2023 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2019-2023 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2020-2023 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2021-2023 Couchbase, Inc.</pattern>
+                    <pattern>Copyright 2022-2023 Couchbase, Inc.</pattern>
+                  </patterns>
+                </license>
+              </licenses>
+              <licenseFamilies>
+                <licenseFamily implementation="org.apache.rat.license.SimpleLicenseFamily">
+                  <familyName>Couchbase</familyName>
+                </licenseFamily>
+              </licenseFamilies>
+              <excludes>
+                <exclude>**/target/**</exclude>
+                <exclude>**/*.iml</exclude>
+                <exclude>**/*.project</exclude>
+                <exclude>**/*.prefs</exclude>
+                <exclude>**/*.classpath</exclude>
+                <exclude>version-maven-plugin/src/main/resources/manifest.dtd</exclude>
+                <exclude>*/src/test/**</exclude>
+              </excludes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>net.revelc.code.formatter</groupId>
+        <artifactId>formatter-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>${source-format.goal}</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <configFile>${asterixdb.dir}/hyracks-fullstack/AsterixCodeFormatProfile.xml</configFile>
+          <skipFormatting>${source-format.skip}</skipFormatting>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-plugin-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven.plugin-tools</groupId>
+      <artifactId>maven-plugin-annotations</artifactId>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+  <modules>
+    <module>version-maven-plugin</module>
+    <module>docker-maven-plugin</module>
+    <module>bom-helper-maven-plugin</module>
+  </modules>
+</project>
