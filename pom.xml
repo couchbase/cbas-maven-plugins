@@ -214,4 +214,12 @@
     <module>docker-maven-plugin</module>
     <module>bom-helper-maven-plugin</module>
   </modules>
+
+  <scm>
+    <connection>scm:git:https://github.com/couchbase/cbas-maven-plugins</connection>
+    <developerConnection>scm:git:ssh://review.couchbase.com:29418/cbas-maven-plugins</developerConnection>
+    <url>https://github.com/couchbase/cbas-maven-plugins</url>
+    <tag>HEAD</tag>
+  </scm>
+
 </project>
