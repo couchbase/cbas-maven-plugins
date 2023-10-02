@@ -21,7 +21,7 @@
   <parent>
     <artifactId>cbas-maven-plugins</artifactId>
     <groupId>com.couchbase.analytics</groupId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
   </parent>
   <properties>
     <root.dir>${basedir}/..</root.dir>
