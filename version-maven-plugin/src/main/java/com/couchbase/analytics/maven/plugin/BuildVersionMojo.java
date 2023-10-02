@@ -24,6 +24,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -105,8 +106,12 @@ public abstract class BuildVersionMojo extends AbstractMojo {
     }
 
     private String determineProjectVersionOnly(Project project) {
-        return project.getAnnotation().stream().filter(annotation -> "VERSION".equals(annotation.getName())).findFirst()
+        return propertyExtractor(project, "SERVER_VERSION").or(() -> propertyExtractor(project, "VERSION"))
                 .map(Annotation::getValue).orElse(defaultProductVersionOnly);
+    }
+
+    private static Optional<Annotation> propertyExtractor(Project project, String propName) {
+        return project.getAnnotation().stream().filter(annotation -> propName.equals(annotation.getName())).findFirst();
     }
 
     private String determineBuildNumber(Project project) throws UnknownHostException {
