@@ -76,6 +76,9 @@ public abstract class BuildVersionMojo extends AbstractMojo {
     @Parameter(defaultValue = PRODUCT_VERSION_FIELD)
     protected String productVersionField;
 
+    @Parameter(defaultValue = "VERSION")
+    protected String productVersionBuildProperty;
+
     protected ObjectNode getBuildVersionJson(File manifestFile, final boolean includeProjects)
             throws IOException, JAXBException {
         Manifest manifest =
@@ -106,8 +109,8 @@ public abstract class BuildVersionMojo extends AbstractMojo {
     }
 
     private String determineProjectVersionOnly(Project project) {
-        return propertyExtractor(project, "SERVER_VERSION").or(() -> propertyExtractor(project, "VERSION"))
-                .map(Annotation::getValue).orElse(defaultProductVersionOnly);
+        return propertyExtractor(project, productVersionBuildProperty).map(Annotation::getValue)
+                .orElse(defaultProductVersionOnly);
     }
 
     private static Optional<Annotation> propertyExtractor(Project project, String propName) {
